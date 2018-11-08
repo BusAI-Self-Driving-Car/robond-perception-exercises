@@ -18,7 +18,7 @@ def pcl_callback(pcl_msg):
     # Choose a voxel (also known as leaf) size
     # Note: this (1) is a poor choice of leaf size
     # Experiment and find the appropriate size!
-    LEAF_SIZE = 0.01
+    LEAF_SIZE = 0.0025
 
     # Set the voxel (or leaf) size
     vox.set_leaf_size(LEAF_SIZE, LEAF_SIZE, LEAF_SIZE)
@@ -27,6 +27,9 @@ def pcl_callback(pcl_msg):
     cloud_filtered = vox.filter()
 
     # TODO: PassThrough Filter
+    
+    # Filter in z direction
+    # PassThrough filter
     # Create a PassThrough filter object.
     passthrough = cloud_filtered.make_passthrough_filter()
 
@@ -40,14 +43,16 @@ def pcl_callback(pcl_msg):
     # Finally use the filter function to obtain the resultant point cloud.
     cloud_filtered = passthrough.filter()
 
+    # Filter in z direction
+    # PassThrough filter
     # Create a PassThrough filter object.
     passthrough = cloud_filtered.make_passthrough_filter()
 
     # Assign axis and range to the passthrough filter object.
     filter_axis = 'y'
     passthrough.set_filter_field_name(filter_axis)
-    axis_min = -5
-    axis_max = -1.343
+    axis_min = -2.0
+    axis_max = -1.4
     passthrough.set_filter_limits(axis_min, axis_max)
 
     # Finally use the filter function to obtain the resultant point cloud.
@@ -81,7 +86,7 @@ def pcl_callback(pcl_msg):
     # TODO: Create Cluster-Mask Point Cloud to visualize each cluster separately
     # Create a cluster extraction object
     ec = white_cloud.make_EuclideanClusterExtraction()
-    # Set tolerances for distance threshold 
+    # Set tolerances for distance threshold
     # as well as minimum and maximum cluster size (in points)
     # NOTE: These are poor choices of clustering parameters
     # Your task is to experiment and find values that work for segmenting objects.
